@@ -36,7 +36,7 @@ def drop_create_tables():
   ])
 
   create_table("radicals", [
-    '"id" SERIAL PRIMARY KEY',
+    '"id" PRIMARY KEY',
     '"simplified" varchar',
     '"traditional" varchar',
     '"pinyin" varchar',
@@ -94,5 +94,5 @@ def drop_create_tables():
   """)
 
 
-drop_create_tables()
+# drop_create_tables()
 
