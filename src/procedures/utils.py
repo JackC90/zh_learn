@@ -95,6 +95,3 @@ def decompose(composition):
             i += next_step
         return res
     return None
-
-test = decompose("⿰⿱匕矢⿱子止")
-print(test)

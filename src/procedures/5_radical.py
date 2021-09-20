@@ -5,7 +5,7 @@ from db import insert_list, insert, raw, select, update
 from bs4 import BeautifulSoup
 import pandas as pd
 import re
-from utils import cn_re, idc_re
+from utils import cn_re, idc_re, decompose
 import json
 
 def parse_radicals():
@@ -79,22 +79,18 @@ def disambiguate_radical(chars_list, matches):
         return 163
       else:
         return None
+
   
-  def radical_decompose(composition):
-    if composition:
-      decomp = re.split(idc_re, composition)
-      return decomp
-    else:
-      return None
-  
-  def radical_outer_check(matches, composition, base_comp):
-    decomp = radical_decompose(composition)
-    if decomp:
-      singles = list(filter((lambda comp : len(comp) == 1 and not base_comp in comp), decomp))
-      first_single = singles[0] if len(singles) > 0 else None
-      return first_single
-    else:
-      return None
+def radical_outer_check(matches, composition):
+  decomp = decompose(composition)
+  match_res = []
+  if decomp and matches:
+    for match in matches:
+      rad_str = match["match"][0]
+      out_match = list(filter(lambda child : child == rad_str, decomp["children"]))
+      if out_match:
+        match_res.append(match)
+  return match_res
 
 def assign_radical(character_id, formation_type, base_component, radical, radical_id):
   cols = ["sound_component", "meaning_component", "radical", "radical_id"] if formation_type == 'sound_meaning' else ["sound_component", "radical", "radical_id"]
@@ -164,14 +160,15 @@ def match_radicals():
               if match:
                 assign_radical(id, formation_type, sound_comp, match[0], rad_id)
             else:
-              # If multiple unresolved radicals, prefer the higher Kangxi value
-              max_kx = max(matches, key=lambda x : x["row"]["kangxi"])
-              match_filtered = next(filter(lambda x : x["row"]["id"] == max_kx["row"]["id"], matches)) if max_kx else None
-              match = match_filtered["match"] if match_filtered else None
-              
-              print("char:", character + "  " + composition)
-              print(matches)
-              print("- chosen: " + max_kx["match"][0])
+              # Filter out only the outer-most matches
+              matches_out = radical_outer_check(matches, composition)
+              if matches_out:
+                # If multiple unresolved radicals, prefer the higher Kangxi value
+                max_kx = max(matches_out, key=lambda x : x["row"]["kangxi"])
+                match_filtered = next(filter(lambda x : x["row"]["id"] == max_kx["row"]["id"], matches_out)) if max_kx else None
+                match = match_filtered["match"] if match_filtered else None
+                if match:
+                  assign_radical(id, formation_type, sound_comp, match[0], rad_id)
 
 # parse_radicals()
 match_radicals()
