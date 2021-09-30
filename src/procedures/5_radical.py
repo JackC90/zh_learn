@@ -170,7 +170,7 @@ def match_radicals():
                 if match:
                   assign_radical(id, formation_type, sound_comp, match[0], rad_id)
 
-# parse_radicals()
+parse_radicals()
 match_radicals()
 
 
