@@ -5,7 +5,7 @@ from db import insert_list, insert, raw, select, update
 from bs4 import BeautifulSoup
 import pandas as pd
 import re
-from utils import cn_re, idc_re, decompose
+from utils import cn_re, idc_re, decompose, disambiguate_radical
 import json
 
 def parse_radicals():
@@ -67,19 +67,6 @@ def parse_radicals():
   for i in radicals:
     insert("radicals", radicals[i])
     
-def disambiguate_radical(chars_list, matches):
-  if len(matches) > 1 and matches[0]["match"][0] == matches[1]["match"][0]:
-    match_rad = matches[0]["match"][0]
-    if len(chars_list):
-      if match_rad == chars_list[0]:
-        # 阜 - left side
-        return 170
-      elif match_rad == chars_list[len(chars_list) - 1]:
-        # 邑 - right side
-        return 163
-      else:
-        return None
-
   
 def radical_outer_check(matches, composition):
   decomp = decompose(composition)

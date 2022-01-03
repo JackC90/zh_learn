@@ -95,3 +95,16 @@ def decompose(composition):
             i += next_step
         return res
     return None
+
+def disambiguate_radical(chars_list, matches):
+  if len(matches) > 1 and matches[0]["match"][0] == matches[1]["match"][0]:
+    match_rad = matches[0]["match"][0]
+    if len(chars_list):
+      if match_rad == chars_list[0]:
+        # 阜 - left side
+        return 170
+      elif match_rad == chars_list[len(chars_list) - 1]:
+        # 邑 - right side
+        return 163
+      else:
+        return None
