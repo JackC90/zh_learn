@@ -1,59 +1,43 @@
 CREATE TABLE "words" (
   "id" SERIAL PRIMARY KEY,
-  "simplified" string,
-  "traditional" string,
-  "pinyin" string,
-  "english" string
+  "simplified" varchar,
+  "traditional" varchar,
+  "pinyin" varchar,
+  "english" varchar
 );
 
-CREATE TABLE "traditional_characters" (
+CREATE TABLE "characters" (
   "id" SERIAL PRIMARY KEY,
-  "utf" string,
+  "character" varchar,
+  "variant" varchar,
+  "traditional_id" int
+  "utf" varchar,
   "strokes" int,
-  "type" string,
-  "construction" string,
-  "sound_component" string,
-  "radical" string
+  "formation" varchar,
+  "composition" varchar,
+  "sound_component" varchar,
+  "meaning_component" varchar,
+  "radical" varchar,
+  "radical_id" int
 );
 
-CREATE TABLE "simplified_characters" (
-  "id" SERIAL PRIMARY KEY,
-  "utf" string,
-  "strokes" int,
-  "type" string,
-  "construction" string,
-  "sound_component" string,
-  "radical" string
-);
-
-CREATE TABLE "simp_to_trad" (
-  "id" SERIAL PRIMARY KEY,
-  "traditional_character_id" int,
-  "simplified_character_id" int,
-  "word_id" int
-);
-
-CREATE TABLE "simp_characters_words" (
+CREATE TABLE "characters_words" (
   "id" SERIAL PRIMARY KEY,
   "word_id" int,
-  "simplified_character_id" int,
-  "positions" string
-);
-
-CREATE TABLE "trad_characters_words" (
-  "id" SERIAL PRIMARY KEY,
-  "word_id" int,
-  "traditional_character_id" int,
-  "positions" string
+  "character_id" int,
+  "positions" varchar
 );
 
 CREATE TABLE "radicals" (
   "id" SERIAL PRIMARY KEY,
-  "simplified" string,
-  "traditional" string,
-  "pinyin" string,
-  "english" string,
-  "strokes" int
+  "simplified" varchar,
+  "traditional" varchar,
+  "pinyin" varchar,
+  "english" varchar,
+  "strokes_traditional" int
+  "strokes_simplified" int
+  "variants" int
+  "kangxi" int
 );
 
 CREATE TABLE "frequencies" (
@@ -64,20 +48,25 @@ CREATE TABLE "frequencies" (
   "news" int,
   "tech" int,
   "blog" int,
-  "weibo" int
-  "tv" int
+  "weibo" int,
+  "spoken" int
 );
 
-ALTER TABLE "simp_to_trad" ADD FOREIGN KEY ("traditional_character_id") REFERENCES "traditional_characters" ("id");
+CREATE TABLE "spoken_frequencies" (
+  "id" SERIAL PRIMARY KEY,
+  "word_id" int,
+  "pos" varchar,
+  "frequency" int
+);
 
-ALTER TABLE "simp_to_trad" ADD FOREIGN KEY ("simplified_character_id") REFERENCES "simplified_characters" ("id");
+ALTER TABLE "characters" ADD FOREIGN KEY ("traditional_id") REFERENCES "characters" ("id");
 
-ALTER TABLE "simp_to_trad" ADD FOREIGN KEY ("word_id") REFERENCES "words" ("id");
+ALTER TABLE "characters_words" ADD FOREIGN KEY ("word_id") REFERENCES "words" ("id");
 
-ALTER TABLE "simp_characters_words" ADD FOREIGN KEY ("word_id") REFERENCES "words" ("id");
+ALTER TABLE "characters_words" ADD FOREIGN KEY ("character_id") REFERENCES "characters" ("id");
 
-ALTER TABLE "simp_characters_words" ADD FOREIGN KEY ("simplified_character_id") REFERENCES "simplified_characters" ("id");
+ALTER TABLE "frequencies" ADD FOREIGN KEY ("word_id") REFERENCES "words" ("id");
 
-ALTER TABLE "trad_characters_words" ADD FOREIGN KEY ("word_id") REFERENCES "words" ("id");
+ALTER TABLE "sentences" ADD FOREIGN KEY ("book_id") REFERENCES "books" ("id");
 
-ALTER TABLE "trad_characters_words" ADD FOREIGN KEY ("traditional_character_id") REFERENCES "traditional_characters" ("id");
+ALTER TABLE "spoken_frequencies" ADD FOREIGN KEY ("word_id") REFERENCES "words" ("id");

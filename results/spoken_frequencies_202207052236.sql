@@ -1,3 +1,5 @@
+ALTER SEQUENCE spoken_frequencies_id_seq RESTART;
+
 INSERT INTO public.spoken_frequencies (word_id,pos,frequency) VALUES
 	 (280,'all',203626),
 	 (2704,'all',41),

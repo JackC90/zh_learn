@@ -1,3 +1,5 @@
+ALTER SEQUENCE radicals_id_seq RESTART;
+
 INSERT INTO public.radicals (simplified,traditional,pinyin,english,strokes_traditional,variants,kangxi,strokes_simplified) VALUES
 	 ('一','一','yī','one',1,NULL,1,1),
 	 ('丨','丨','shù','line',1,NULL,2,1),

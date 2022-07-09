@@ -1,4 +1,7 @@
 {
   "git.ignoreLimitWarning": true,
-  "python.autoComplete.extraPaths": ["./**"]
+  "python.autoComplete.extraPaths": [
+    "./**"
+  ],
+  "nuxt.isNuxtApp": false
 }
