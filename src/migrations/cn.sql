@@ -1,3 +1,5 @@
+SET CLIENT_ENCODING TO 'utf8';
+
 CREATE TABLE "words" (
   "id" SERIAL PRIMARY KEY,
   "simplified" varchar,
@@ -57,6 +59,23 @@ CREATE TABLE "spoken_frequencies" (
   "word_id" int,
   "pos" varchar,
   "frequency" int
+);
+
+CREATE TABLE "books" (
+  "id" SERIAL PRIMARY KEY,
+  "title" text,
+  "author" text,
+  "source_language" varchar,
+  "genre" text
+);
+
+CREATE TABLE "sentences" (
+  "id" SERIAL PRIMARY KEY,
+  "book_id" int,
+  "paragraph_num" int,
+  "chapter_num" int,
+  "subchapter_num" int,
+  "volume_num" int
 );
 
 ALTER TABLE "characters" ADD FOREIGN KEY ("traditional_id") REFERENCES "characters" ("id");
