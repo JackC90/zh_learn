@@ -10,7 +10,7 @@ CREATE TABLE "characters" (
   "id" SERIAL PRIMARY KEY,
   "character" varchar,
   "variant" varchar,
-  "traditional_id" int
+  "traditional_id" int,
   "utf" varchar,
   "strokes" int,
   "formation" varchar,
@@ -34,9 +34,9 @@ CREATE TABLE "radicals" (
   "traditional" varchar,
   "pinyin" varchar,
   "english" varchar,
-  "strokes_traditional" int
-  "strokes_simplified" int
-  "variants" int
+  "strokes_traditional" int,
+  "strokes_simplified" int,
+  "variants" int,
   "kangxi" int
 );
 
