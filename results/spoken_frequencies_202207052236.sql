@@ -1,3 +1,5 @@
+SET CLIENT_ENCODING TO 'utf8';
+
 ALTER SEQUENCE spoken_frequencies_id_seq RESTART;
 
 INSERT INTO public.spoken_frequencies (word_id,pos,frequency) VALUES

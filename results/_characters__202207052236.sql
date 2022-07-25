@@ -1,3 +1,5 @@
+SET CLIENT_ENCODING TO 'utf8';
+
 ALTER SEQUENCE characters_id_seq RESTART;
 
 INSERT INTO public."characters" ("character","variant",traditional_id,utf,strokes,formation,composition,sound_component,meaning_component,radical,radical_id) VALUES

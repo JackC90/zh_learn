@@ -38,7 +38,7 @@ CREATE TABLE "radicals" (
   "english" varchar,
   "strokes_traditional" int,
   "strokes_simplified" int,
-  "variants" int,
+  "variants" varchar,
   "kangxi" int
 );
 
@@ -75,6 +75,7 @@ CREATE TABLE "sentences" (
   "paragraph_num" int,
   "chapter_num" int,
   "subchapter_num" int,
+  "text" text,
   "volume_num" int
 );
 

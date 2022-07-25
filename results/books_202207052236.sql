@@ -1,3 +1,5 @@
+SET CLIENT_ENCODING TO 'utf8';
+
 ALTER SEQUENCE books_id_seq RESTART;
 
 INSERT INTO public.books (title,author,source_language,genre) VALUES
